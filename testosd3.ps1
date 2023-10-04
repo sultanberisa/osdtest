@@ -71,14 +71,14 @@ else {
 Write-Host -ForegroundColor Green "[+] Transport Layer Security (TLS) 1.2"
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 #endregion
-$Params = @{
+<#$Params = @{
     OSBuild = "22H2"
     OSEdition = "Enterprise"
     OSLanguage = "nb-no"
     SkipAutopilot = $true
     SkipODT = $true
 }
-Start-OSDCloud @Params
+Start-OSDCloud @Params#>
 #region WinPE
 if ($WindowsPhase -eq 'WinPE') {
     #Process OSDCloud startup and load Azure KeyVault dependencies
@@ -87,7 +87,7 @@ if ($WindowsPhase -eq 'WinPE') {
    # Write-Host -ForegroundColor Cyan "Start-OSDCloud, Start-OSDCloudGUI, or Start-OSDCloudAzure, can be run in the new PowerShell window"
     
     #Start OSDCloud and pass all the parameters except the Language to allow for prompting
-   # Start-OSDCloud -OSVersion 'Windows 11' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot -SkipODT -Restart
+   # Start-OSDCloud -OSVersion 'Windows 10' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot $true -SkipODT $true -Restart
 
     Restart-Computer
     #Stop the startup Transcript.  OSDCloud will create its own
