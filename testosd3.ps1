@@ -78,13 +78,15 @@ if ($WindowsPhase -eq 'WinPE') {
    # osdcloud-StartWinPE -OSDCloud
    # Write-Host -ForegroundColor Cyan "To start a new PowerShell session, type 'start powershell' and press enter"
    # Write-Host -ForegroundColor Cyan "Start-OSDCloud, Start-OSDCloudGUI, or Start-OSDCloudAzure, can be run in the new PowerShell window"
-    
-    #Start OSDCloud and pass all the parameters except the Language to allow for prompting
-   # Start-OSDCloud -OSVersion 'Windows 10' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot $true -SkipODT $true -Restart
-
-    Restart-Computer
+    Write-Host -ForegroundColor Cyan "TESTESTESTSULTAN"
     #Stop the startup Transcript.  OSDCloud will create its own
     $null = Stop-Transcript -ErrorAction Ignore
+
+    #Start OSDCloud and pass all the parameters except the Language to allow for prompting
+    Start-OSDCloud -OSVersion 'Windows 10' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot $true -SkipODT $true -Restart
+
+    Restart-Computer
+
 }
 #endregion
 
@@ -195,6 +197,7 @@ Function        osdcloud-UpdateModuleFilesManually
 # from winget.osdcloud.com
 #region OOBE
 if ($WindowsPhase -eq 'OOBE') {
+    osdcloud-RemoveAppx -Basic
     osdcloud-SetExecutionPolicy
     osdcloud-SetPowerShellProfile
     osdcloud-InstallPackageManagement
@@ -202,6 +205,7 @@ if ($WindowsPhase -eq 'OOBE') {
     osdcloud-InstallPowerShellModule -Name Pester
     osdcloud-InstallPowerShellModule -Name PSReadLine
     osdcloud-InstallWinGet
+
     if (Get-Command 'WinGet' -ErrorAction SilentlyContinue) {
         Write-Host -ForegroundColor Green "[+] winget upgrade --all --accept-source-agreements --accept-package-agreements"
         winget upgrade --all --accept-source-agreements --accept-package-agreements
@@ -211,6 +215,7 @@ if ($WindowsPhase -eq 'OOBE') {
     osdcloud-InstallPwsh
     Write-Host -ForegroundColor Green "[+] winget.osdcloud.com Complete"
     $null = Stop-Transcript -ErrorAction Ignore
+    osdcloud-RestartComputer
 }
 #endregion
 
