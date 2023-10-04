@@ -1,4 +1,4 @@
-[CmdletBinding()]
+<#[CmdletBinding()]
 param()
 
 #Start the Transcript
@@ -17,7 +17,7 @@ $appx2remove = @('OneNote','BingWeather','CommunicationsApps','OneDrive','Office
 Write-Host -ForegroundColor DarkGray "$ScriptName $ScriptVersion $WindowsPhase"
 #Start OSDCloud
 Write-Host -ForegroundColor Gray "Windows 11 Enterprise Retail 22H2 nb-no is being installed now."
-Start-OSDCloud -OSLanguage nb-no -OSBuild 22H2 -OSEdition Enterprise -OSLicense Retail -SkipODT -OSVersion 'Windows 11' -ZTI -SkipAutopilot
+Start-OSDCloud -OSLanguage nb-no -OSBuild 22H2 -OSEdition Enterprise -OSLicense Retail -SkipODT -OSVersion 'Windows 11' -ZTI -SkipAutopilot#>
 #================================================
 #   WinPE PostOS Sample
 #   OOBEDeploy Offline Staging
@@ -30,7 +30,9 @@ $Params = @{
 }
 Start-OOBEDeploy @Params
 
-iex (irm winget.osdcloud.com)
+Restart-Computer
+
+powershell iex (irm winget.osdcloud.com)
 
 winget install --id Git.Git -e --source winget --silent 
 
