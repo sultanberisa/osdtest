@@ -167,4 +167,4 @@ $SetCommand | Out-File -FilePath "C:\Windows\Autopilot.cmd" -Encoding ascii -For
 #   PostOS
 #   Restart-Computer
 #================================================
-Restart-Computer
+wpeutil reboot
