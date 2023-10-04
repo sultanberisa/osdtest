@@ -89,6 +89,7 @@ if ($WindowsPhase -eq 'WinPE') {
     #Start OSDCloud and pass all the parameters except the Language to allow for prompting
     Start-OSDCloud -OSVersion 'Windows 11' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot -SkipODT -Restart
 
+    osdcloud-RestartComputer
     #Stop the startup Transcript.  OSDCloud will create its own
     $null = Stop-Transcript -ErrorAction Ignore
 }
@@ -211,6 +212,8 @@ if ($WindowsPhase -eq 'OOBE') {
     if (Get-Command 'WinGet' -ErrorAction SilentlyContinue) {
         Write-Host -ForegroundColor Green "[+] winget upgrade --all --accept-source-agreements --accept-package-agreements"
         winget upgrade --all --accept-source-agreements --accept-package-agreements
+        Write-Host -ForegroundColor Green 'winget install --id Git.Git --exact --silent'
+        winget install --id Git.Git --exact --silent
     }
     osdcloud-InstallPwsh
     Write-Host -ForegroundColor Green "[+] winget.osdcloud.com Complete"
