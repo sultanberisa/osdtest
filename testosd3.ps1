@@ -84,7 +84,9 @@ if ($WindowsPhase -eq 'WinPE') {
 
     #Start OSDCloud and pass all the parameters except the Language to allow for prompting
     Start-OSDCloud -OSVersion 'Windows 10' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot -SkipODT -Restart
-
+	
+    read-host “Press ENTER to continue...”
+    
     Restart-Computer
 
 }
