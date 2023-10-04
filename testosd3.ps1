@@ -79,6 +79,7 @@ Write-Host -ForegroundColor Green "[+] Transport Layer Security (TLS) 1.2"
     SkipODT = $true
 }
 Start-OSDCloud @Params#>
+##
 #region WinPE
 if ($WindowsPhase -eq 'WinPE') {
     #Process OSDCloud startup and load Azure KeyVault dependencies
