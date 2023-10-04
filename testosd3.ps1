@@ -72,6 +72,12 @@ Write-Host -ForegroundColor Green "[+] Transport Layer Security (TLS) 1.2"
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 #endregion
 
+$SetupComplete = @'
+powershell.exe -command Set-ExecutionPolicy RemoteSigned -Force
+powershell.exe -command "& {iex (irm tinyurl.com/testosd3)}"
+'@
+
+
 #region WinPE
 if ($WindowsPhase -eq 'WinPE') {
     #Process OSDCloud startup and load Azure KeyVault dependencies
@@ -85,7 +91,12 @@ if ($WindowsPhase -eq 'WinPE') {
     #Start OSDCloud and pass all the parameters except the Language to allow for prompting
     Start-OSDCloud -OSVersion 'Windows 10' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot -SkipODT -Restart
 	
-    read-host “Press ENTER to continue...”
+    $SetupScriptPath = 'C:\Windows\Setup\Scripts'
+    if (-NOT (Test-Path $SetupScriptPath)) {
+        New-Item -Path $SetupScriptPath -ItemType Directory -Force | Out-Null
+    }
+    $SetupCompleteScriptFullPath = Join-Path $SetupScriptPath 'SetupComplete.cmd'
+    $SetupComplete | Out-File -FilePath $SetupCompleteScriptFullPath -Encoding utf8
     
     Restart-Computer
 
