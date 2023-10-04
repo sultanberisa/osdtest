@@ -107,9 +107,9 @@ if ($WindowsPhase -eq 'AuditMode') {
 #endregion
 
 #region OOBE
-if ($WindowsPhase -eq 'OOBE') {
+<#if ($WindowsPhase -eq 'OOBE') {
     #Load everything needed to run AutoPilot and Azure KeyVault
-    osdcloud-StartOOBE -Display -Language -DateTime -InstallWinGet -WinGetUpgrade -WinGetPwsh
+    #osdcloud-StartOOBE -Display -Language -DateTime -InstallWinGet -WinGetUpgrade -WinGetPwsh
 
     osdcloud-RemoveAppx -Basic
     osdcloud-NetFX
@@ -117,16 +117,126 @@ if ($WindowsPhase -eq 'OOBE') {
     $null = Stop-Transcript -ErrorAction Ignore
 
     osdcloud-RestartComputer
+}#>
+#endregion
+
+<#
+
+[OSDCloud]: PS C:\WINDOWS\system32> iex (irm start.osdcloud.com)
+[+] sandbox.osdcloud.com 23.6.10.1 (Windows Phase)
+[+] functions.osdcloud.com 23.6.10.1 (Windows Phase)
+[+] Running as VIKEN\sultanb (Admin Elevated)
+[+] Transport Layer Security (TLS) 1.2
+[OSDCloud]: PS C:\WINDOWS\system32> Get-Command osdcloud-*
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Alias           osdcloud-ShowAutopilotInfo
+Function        osdcloud-addserviceui
+Function        osdcloud-GetAutopilotEvents
+Function        osdcloud-GetKeyVaultSecretList
+Function        osdcloud-HPBIOSDetermine
+Function        osdcloud-HPBIOSEXEDownload
+Function        osdcloud-HPBIOSSetSetting
+Function        osdcloud-HPBIOSUpdate
+Function        osdcloud-HPIADownload
+Function        osdcloud-HPIAExecute
+Function        osdcloud-HPIAOfflineSync
+Function        osdcloud-HPSetupCompleteAppend
+Function        osdcloud-HPTPMBIOSSettings
+Function        osdcloud-HPTPMDetermine
+Function        osdcloud-HPTPMDowngrade
+Function        osdcloud-HPTPMDownload
+Function        osdcloud-HPTPMEXEDownload
+Function        osdcloud-HPTPMEXEInstall
+Function        osdcloud-HPTPMUpdate
+Function        osdcloud-InstallModuleAutopilot
+Function        osdcloud-InstallModuleAzAccounts
+Function        osdcloud-InstallModuleAzKeyVault
+Function        osdcloud-InstallModuleAzResources
+Function        osdcloud-InstallModuleAzStorage
+Function        osdcloud-InstallModuleAzureAD
+Function        osdcloud-InstallModuleHPCMSL
+Function        osdcloud-InstallModuleMSGraphAuthentication
+Function        osdcloud-InstallModuleMSGraphDeviceManagement
+Function        osdcloud-InstallModuleOSD
+Function        osdcloud-InstallModulePester
+Function        osdcloud-InstallNuget
+Function        osdcloud-InstallPackageManagement
+Function        osdcloud-InstallPowerShellModule
+Function        osdcloud-InstallPwsh
+Function        osdcloud-InstallScriptAutopilot
+Function        osdcloud-InstallWinGet
+Function        osdcloud-InvokeKeyVaultSecret
+Function        osdcloud-RemoveAppx
+Function        osdcloud-RenamePC
+Function        osdcloud-RestartComputer
+Function        osdcloud-SetExecutionPolicy
+Function        osdcloud-SetPowerShellProfile
+Function        osdcloud-ShowAutopilotProfile
+Function        osdcloud-StopComputer
+Function        osdcloud-TestAutopilotProfile
+Function        osdcloud-TestHPIASupport
+Function        osdcloud-TrustPSGallery
+Function        osdcloud-UpdateDefender
+Function        osdcloud-UpdateDefenderStack
+Function        osdcloud-UpdateModuleFilesManually
+
+#>
+
+#region Windows
+<#if ($WindowsPhase -eq 'Windows') {
+    #Load OSD and Azure stuff
+    osdcloud-SetExecutionPolicy
+    osdcloud-TrustPSGallery
+    osdcloud-InstallWinGet
+    osdcloud-InstallNuget
+    osdcloud-InstallPackageManagement
+    winget install --id Git.Git --exact --silent
+    osdcloud-InstallPowerShellModule -Name OSD
+    $null = Stop-Transcript -ErrorAction Ignore
+}#>
+#endregion
+
+# from winget.osdcloud.com
+#region OOBE
+if ($WindowsPhase -eq 'OOBE') {
+    osdcloud-SetExecutionPolicy
+    osdcloud-SetPowerShellProfile
+    osdcloud-InstallPackageManagement
+    osdcloud-TrustPSGallery
+    osdcloud-InstallPowerShellModule -Name Pester
+    osdcloud-InstallPowerShellModule -Name PSReadLine
+    osdcloud-InstallWinGet
+    if (Get-Command 'WinGet' -ErrorAction SilentlyContinue) {
+        Write-Host -ForegroundColor Green "[+] winget upgrade --all --accept-source-agreements --accept-package-agreements"
+        winget upgrade --all --accept-source-agreements --accept-package-agreements
+    }
+    osdcloud-InstallPwsh
+    Write-Host -ForegroundColor Green "[+] winget.osdcloud.com Complete"
+    $null = Stop-Transcript -ErrorAction Ignore
 }
 #endregion
 
 #region Windows
 if ($WindowsPhase -eq 'Windows') {
-    #Load OSD and Azure stuff
     osdcloud-SetExecutionPolicy
+    osdcloud-SetPowerShellProfile
     osdcloud-InstallPackageManagement
-    winget install --id Git.Git --exact --silent
-    osdcloud-InstallPowerShellModule -Name OSD
+    osdcloud-TrustPSGallery
+    osdcloud-InstallPowerShellModule -Name Pester
+    osdcloud-InstallPowerShellModule -Name PSReadLine
+    osdcloud-InstallWinGet
+    if (Get-Command 'WinGet' -ErrorAction SilentlyContinue) {
+        Write-Host -ForegroundColor Green '[+] winget upgrade --all --accept-source-agreements --accept-package-agreements'
+        winget upgrade --all --accept-source-agreements --accept-package-agreements
+        Write-Host -ForegroundColor Green 'winget install --id Git.Git --exact --silent'
+        winget install --id Git.Git --exact --silent
+    }
+    osdcloud-InstallPwsh
+    Write-Host -ForegroundColor Green "[+] winget.osdcloud.com Complete"
     $null = Stop-Transcript -ErrorAction Ignore
 }
 #endregion
+
+# end from winget.osdcloud.com

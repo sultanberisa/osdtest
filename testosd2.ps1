@@ -26,7 +26,7 @@ Start-OSDCloud @Params
 #   OOBEDeploy Offline Staging
 #================================================
 $Params = @{
-    Autopilot = $true
+    Autopilot = $false
     RemoveAppx = "CommunicationsApps","OfficeHub","People","Skype","Solitaire","Xbox","ZuneMusic","ZuneVideo"
     UpdateDrivers = $true
     UpdateWindows = $true
