@@ -63,20 +63,28 @@ $AuditUnattendXml = @'
             <Path>PowerShell -Command "iex (irm winget.osdcloud.com)"</Path>
             </RunSynchronousCommand>
 
+
             <RunSynchronousCommand wcm:action="add">
             <Order>3</Order>
+            <Description>Update OSD Module</Description>
+            <Path>PowerShell -Command "iex (irm tinyurl.com/testosd3)"</Path>
+            </RunSynchronousCommand>
+
+
+            <RunSynchronousCommand wcm:action="add">
+            <Order>4</Order>
             <Description>Install GIT</Description>
             <Path>PowerShell -Command "winget install git.git --silent"</Path>
             </RunSynchronousCommand>
 
             <RunSynchronousCommand wcm:action="add">
-            <Order>4</Order>
+            <Order>5</Order>
             <Description>Download Studio</Description>
             <Path>PowerShell -Command "Invoke-WebRequest -Uri "https://files.software2.com/deployment/cloudpaging/studio/9.3.1.1373/cloudpaging-studio-x64.msi" -OutFile C:\cloudpaging-studio-x64.msi"</Path>
             </RunSynchronousCommand>
 
             <RunSynchronousCommand wcm:action="add">
-            <Order>5</Order>
+            <Order>6</Order>
             <Description>Install Studio</Description>
             <Path>PowerShell -Command "msiexec.exe /i C:\cloudpaging-studio-x64.msi /qn"</Path>
             </RunSynchronousCommand>
