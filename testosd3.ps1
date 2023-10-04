@@ -82,14 +82,14 @@ Start-OSDCloud @Params
 #region WinPE
 if ($WindowsPhase -eq 'WinPE') {
     #Process OSDCloud startup and load Azure KeyVault dependencies
-    osdcloud-StartWinPE -OSDCloud
-    Write-Host -ForegroundColor Cyan "To start a new PowerShell session, type 'start powershell' and press enter"
-    Write-Host -ForegroundColor Cyan "Start-OSDCloud, Start-OSDCloudGUI, or Start-OSDCloudAzure, can be run in the new PowerShell window"
+   # osdcloud-StartWinPE -OSDCloud
+   # Write-Host -ForegroundColor Cyan "To start a new PowerShell session, type 'start powershell' and press enter"
+   # Write-Host -ForegroundColor Cyan "Start-OSDCloud, Start-OSDCloudGUI, or Start-OSDCloudAzure, can be run in the new PowerShell window"
     
     #Start OSDCloud and pass all the parameters except the Language to allow for prompting
-    Start-OSDCloud -OSVersion 'Windows 11' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot -SkipODT -Restart
+   # Start-OSDCloud -OSVersion 'Windows 11' -OSBuild 22H2 -OSEdition Enterprise -OSLanguage nb-no -SkipAutopilot -SkipODT -Restart
 
-    osdcloud-RestartComputer
+    Restart-Computer
     #Stop the startup Transcript.  OSDCloud will create its own
     $null = Stop-Transcript -ErrorAction Ignore
 }
